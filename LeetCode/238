@@ -1,0 +1,22 @@
+//第一遍循环从左向右，运算当前数i左边所有数的乘积
+//第二遍循环从右向左，运算当前数i右边所有数的乘积，并与i左边的乘积数相乘得出结果。
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int[] dp = new int[nums.length];
+        int left = 1;
+        for(int i = 0; i < nums.length; i++){
+            dp[i] = left;
+            left *=  nums[i];
+        }
+        
+        int right = 1;
+        for(int i = nums.length - 1; i >= 0; i--){
+            dp[i] *= right;
+            right *= nums[i];
+        }
+        
+        return dp;
+        
+        
+    }
+}
