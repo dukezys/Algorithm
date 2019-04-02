@@ -1,0 +1,17 @@
+//Brute
+class Solution {
+    public int[] countBits(int num) {
+        int[] ans = new int[num + 1];
+        for(int i = 0; i <= num; i++){
+            int k = i;
+            int count = 0;
+            while(k >= 1){
+                if((k & 1) == 1)
+                    count++;
+                k = k >> 1;
+            }
+            ans[i] = count;
+        }
+        return ans;
+    }
+}
