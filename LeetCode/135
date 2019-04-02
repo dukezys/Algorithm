@@ -1,0 +1,51 @@
+//Brute Force
+class Solution {
+    public int candy(int[] ratings) {
+        int[] candies = new int[ratings.length];
+        Arrays.fill(candies, 1);
+        boolean flag = true;
+        int sum = 0;
+        while(flag){
+            flag = false;
+            for(int i = 0; i < ratings.length; i++){
+                if(i != ratings.length - 1 && ratings[i] > ratings[i + 1] && candies[i] <= candies[i+1]){
+                    candies[i] = candies[i+1] + 1;
+                    flag = true;
+                }
+                if(i > 0 && ratings[i] > ratings[i - 1] && candies[i] <= candies[i-1]){
+                    candies[i] = candies[i-1] + 1;
+                    flag = true;
+                }
+            }
+        }
+        for(int candy : candies)
+            sum += candy;
+        
+        return sum;
+    }
+}
+
+//Two arrays
+class Solution {
+    public int candy(int[] ratings) {
+        int sum = 0;
+        int[] lr = new int[ratings.length];
+        int[] rl = new int[ratings.length];
+        Arrays.fill(lr, 1);
+        Arrays.fill(rl, 1);
+        for(int i = 1; i < ratings.length; i++){
+            if(ratings[i] > ratings[i-1])
+                lr[i] = lr[i - 1] + 1;
+        }
+        
+        for(int i = ratings.length - 2; i >= 0; i--){
+            if(ratings[i] > ratings[i + 1])
+                rl[i] = rl[i + 1] + 1;
+        }
+        
+        for(int i = 0; i < ratings.length; i++)
+            sum += Math.max(lr[i], rl[i]);
+        
+        return sum;
+    }
+}
