@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+//一旦碰到二叉树有关的问题最先想到的还是递归，
+class Solution {
+    private int ans;
+    public int diameterOfBinaryTree(TreeNode root) {
+        ans = 1;
+        recursive(root);
+        return ans-1;
+    }
+    public int recursive(TreeNode curr){
+        if(curr == null)
+            return 0;
+        int left = recursive(curr.left);
+        int right = recursive(curr.right);
+        ans = Math.max(ans, left + right + 1);
+        return Math.max(left, right) + 1;
+    }
+}
