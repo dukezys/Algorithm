@@ -9,6 +9,9 @@
  *     }
  * }
  */
+//这个方法没什么好说的，快慢指针，要注意的问题是边界的问题
+//首先第一个判定要head == null || head.next == null
+//第二个是p1 == null || p1.next == null
 public class Solution {
     public boolean hasCycle(ListNode head) {
         if(head == null || head.next == null)
@@ -22,5 +25,19 @@ public class Solution {
             p2 = p2.next;
         }while(p2 != p1);
         return true;
+    }
+}
+
+//第二个方法时用HashSet，使用contains来查找是否重复
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> nodeset = new HashSet<>();
+        while(head != null){
+            if(nodeset.contains(head))
+                return true;
+            else
+                nodeset.add(head);
+        }
+        return false;
     }
 }
