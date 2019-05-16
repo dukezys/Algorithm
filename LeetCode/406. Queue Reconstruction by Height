@@ -1,0 +1,28 @@
+//首先，按照people[][0]的顺序将数组排序，如果身高相同，则按照数组的第二个数，大的在前面，原因接下来再说
+//然后建立list，存放重建后每个人的位置
+//因为排序后是按每个人的身高和位置排序的，假如第一个人是[4, 4]，那么他必定会排在第五个位置，因为他是身高最矮的，排在他前面的必定都大于等于他
+//以此类推可以确定后面的人的位置，当remove完成之后，位置就完成了顺延
+//因为每确定一个人我们都要remove掉他在list上的位置，所以我们要把同样身高的人按照位置从大到小排序，这样remove掉高位的人不会影响到低位人的位置
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, new Comparator<int[]>(){
+            public int compare(int a[], int b[]){
+                if(a[0] != b[0])
+                    return a[0] - b[0];
+                else
+                    return b[1] - a[1];
+            }
+        });
+        List<Integer> list = new ArrayList<>();
+        int[][] ans = new int[people.length][2];
+        for(int i = 0; i < people.length; i++)
+            list.add(i);
+        for(int i = 0; i < people.length; i++){
+            int index = list.get(people[i][1]);
+            ans[index][0] = people[i][0];
+            ans[index][1] = people[i][1];
+            list.remove(people[i][1]);
+        }
+        return ans;
+    }
+}
