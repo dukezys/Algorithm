@@ -1,0 +1,19 @@
+//先将原字符串转换成charArray，新建一个StringBuffer，遍历charArray
+//遇到空格就append%20
+public class Solution {
+    public String replaceSpace(StringBuffer str) {
+        String s = str.toString();
+        char[] arr = s.toCharArray();
+        String space = "%20";
+        StringBuffer ans = new StringBuffer("");
+        for(int i = 0; i < arr.length;i++){
+            if(arr[i] == ' ')
+                ans.append(space);
+            else
+                ans.append(arr[i]);
+        }
+        String res = ans.toString();
+        return res;
+    	
+    }
+}
