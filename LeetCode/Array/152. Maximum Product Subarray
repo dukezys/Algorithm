@@ -12,8 +12,34 @@ class Solution {
             int temp = max;
             max = Math.max(Math.max(max * nums[i],min * nums[i]), nums[i]);
             min = Math.min(Math.min(temp * nums[i], min*nums[i]), nums[i]);
-            if(max > result)
-                result = max;
+            result = Math.max(result, max);
+        }
+        return result;
+    }
+}
+
+//Better solution
+//当当前数字为正数时，正常计算
+//当当前数字为负数时，使用Math.max(min*nums[i], nums[i])计算当前最大的，因为如果当前min为负，curr也为负，则得正
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return 0;
+        int n = nums.length;
+        int max = nums[0];
+        int min = nums[0];
+        int result = nums[0];
+        for(int i = 1; i < n; i++){
+            if(nums[i] > 0){
+                max = Math.max(max * nums[i], nums[i]);
+                min = Math.min(min * nums[i], nums[i]);
+            }
+            else{
+                int lmax = max;
+                max = Math.max(min * nums[i], nums[i]);
+                min = Math.min(lmax * nums[i], nums[i]);
+            }
+            result = Math.max(result, max);
         }
         return result;
     }
