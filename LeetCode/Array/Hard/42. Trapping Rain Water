@@ -1,0 +1,34 @@
+//Solution 1 
+//首先找出height最高点，一最高点为界限，进行循环，主要思想就是一定要有比当前位置更高的点，并且距离要大于1才能储存
+//所以分别对左右进行循环，进行储存
+class Solution {
+    public int trap(int[] height) {
+        int res = 0;
+        int maxIndex = 0;
+        int max = -1;
+        for(int i = 0; i < height.length; i++){
+            if(height[i] > max){
+                max = height[i];
+                maxIndex = i;
+            }
+        }
+        
+        int leftmax = -1;
+        for(int i = 0; i < maxIndex; i++){
+            if(height[i] >leftmax)
+                leftmax = height[i];
+            else
+                res += leftmax - height[i];
+        }
+        
+        int rightmax = -1;
+        for(int i = height.length - 1; i > maxIndex; i--){
+            if(height[i] > rightmax)
+                rightmax = height[i];
+            else
+                res += rightmax - height[i];
+        }
+        
+        return res;
+    }
+}
