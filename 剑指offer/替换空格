@@ -14,6 +14,33 @@ public class Solution {
         }
         String res = ans.toString();
         return res;
-    	
+    }
+}
+
+//先进行遍历，找出有多少个空格，在原字符串上扩充长度
+//然后设置两个指针，第一个指针为oldlen，第二个为newlen，然后进行遍历，到0为止
+//如果遇到' '则添加%20，否则将字符转换过去
+public class Solution {
+    public String replaceSpace(StringBuffer str) {
+        int count = 0;
+        for(int i = 0; i < str.length(); i++){
+            if(str.charAt(i) == ' ')
+                count++;
+        }
+        int oldlen = str.length() - 1;
+        int newlen = str.length() + 2 * count;
+        str.setLength(newlen);
+        for(int i = newlen - 1; i >= 0; i--){
+            if(str.charAt(oldlen) != ' ')
+                str.setCharAt(i,str.charAt(oldlen--));
+            else{
+                oldlen--;
+                str.setCharAt(i--, '0');
+                str.setCharAt(i--, '2');
+                str.setCharAt(i, '%');
+            }
+        }
+        return str.toString();
+        
     }
 }
