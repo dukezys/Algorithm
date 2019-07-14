@@ -1,0 +1,34 @@
+//二叉树问题通用的结题思路是：递归，让左右子树自行推导，在多数情况下我们不用管
+//本题中设置了递归函数uild(int[] pre, int[] in, int pstart, int enstart, int startin, int enin)
+//pre,in为数组，pstart，enstart为当前子树在前序遍历中的位置，startin，ein为当前子树在中序遍历中的位置
+//然后思路就很清晰了，递归，取每次递归的前序遍历数组的第一位为当前子树的root，依据二叉树的思想，我们只需要再通过递归来找到root.left，root.right
+//还有一个问题就是递归时位置的设置
+public class Solution {
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        
+        TreeNode root = build(pre, in, 0, pre.length-1, 0, in.length-1);
+        
+        return root;
+    }
+    
+    public TreeNode build(int[] pre, int[] in, int pstart, int enstart, int startin, int enin){
+        if(pstart > enstart || startin > enin)
+            return null;
+        TreeNode root = new TreeNode(pre[pstart]);//设置pre头为当前树节点
+        
+        for(int i = startin; i <= enin; i++){
+            if(in[i] == pre[pstart]){
+                //左子树，因为取了root，则pstart+1，不知道结束在哪，所以结束点为enstart，因为i左边都是左子树，则为startin，在i左边，所以为i-1
+                //感觉startin的位置可以有更好的替代方法，有待验证
+                root.left = build(pre, in, pstart + 1, enstart, startin, i-1);
+                //右子树，pstart的位置为i-startin+pstart+1，
+                //右子树我们则要在前序遍历中跳过左子树，直接找到右子树的位置，
+                //在中序遍历数组中，startin 到 i之间全是左子树，i-startin则是左子树个数，startpre为当前左子树第一个节点
+                //则startpre+(i-startin)+1则跳过了全部左子树节点
+                //其他参数都很明显
+                root.right = build(pre, in, pstart+(i-startin)+1, enstart, i+1, enin);
+            }
+        }
+        return root;
+    }
+}
