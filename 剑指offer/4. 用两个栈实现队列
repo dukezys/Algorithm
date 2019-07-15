@@ -1,0 +1,19 @@
+//队列为先进先出，栈为先进后出，所以当stack1中的数据到stack2里，就反过来了
+//为先进先出，所以当stack2为空时，把stack1中数据压入stack2
+import java.util.Stack;
+public class Solution {
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+    
+    public void push(int node) {
+        stack1.push(node);
+    }
+    
+    public int pop() {
+        if(stack2.isEmpty()){
+            while(!stack1.isEmpty())
+                stack2.push(stack1.pop());
+        }
+        return stack2.pop();
+    }
+}
