@@ -1,0 +1,25 @@
+//跟斐波那契额数列一样，只不过求的是方法种数，所以无论最后剩1剩0都返回1种
+public class Solution {
+    private int count = 0;
+    public int JumpFloor(int target) {
+        if(target == 0 || target == 1)
+            return 1;
+        return JumpFloor(target - 1) + JumpFloor(target - 2);
+    }
+}
+
+public class Solution {
+    public int JumpFloor(int target) {
+        if(target <= 2)
+            return target;
+        int res = 0;
+        int pre1 = 1;
+        int pre2 = 2;
+        for(int i = 3; i <= target;i++){
+            res = pre1 + pre2;
+            pre1 = pre2;
+            pre2 = res;
+        }
+        return res;
+    }
+}
