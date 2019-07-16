@@ -1,0 +1,30 @@
+//可以暴力，但是使用二分查找更快
+//需要注意的是要考虑到当mid==head==tail的情况，无法继续二分，在当前基础上使用暴力
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+        if(array.length == 0)
+            return 0;
+        int tail = array.length - 1;
+        int head = 0;
+        
+        while(head < tail){
+            int mid = head + (tail - head) / 2;
+            //出现都相等情况，无法判断，暴力求解
+            if(array[mid] == array[head] && array[mid] == array[tail])
+                return force(array, head, tail);
+            if(array[mid] > array[tail])
+                head = mid + 1;
+            else
+                tail = mid;
+        }
+        return array[head];
+    }
+    
+    public int force(int[] array, int head, int tail){
+        for(int i = head; i < tail; i++){
+            if(array[i] > array[i+1])
+                return array[i+1];
+        }
+        return array[head];
+    }
+}
