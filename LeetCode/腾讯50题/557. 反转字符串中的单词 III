@@ -1,0 +1,44 @@
+//先用split分割成字符串数组，然后用stack存储单词
+//再使用append方法倒序加上
+class Solution {
+    public String reverseWords(String s) {
+        if(s.length() == 0)
+            return "";
+        
+        String[] sarr = s.split(" ");
+        Stack<Character> stack = new Stack<>();
+        
+        StringBuilder ans = new StringBuilder("");
+        
+        for(int i = 0; i < sarr.length; i++){
+            int len = sarr[i].length();
+            for(int j = 0; j < len; j++)
+                stack.push(sarr[i].charAt(j));
+            while(!stack.isEmpty())
+                ans.append(stack.pop());
+            if(i != sarr.length - 1)
+                ans.append(" ");
+        }
+        return ans.toString();
+    }
+}
+
+//也是先split，再使用.reverse()方法进行反转
+class Solution {
+    public String reverseWords(String s) {
+        if(null == s){
+            return null;
+        }
+        String[] arr = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String word : arr){
+            sb.append(new StringBuilder(word).reverse());
+            sb.append(" ");
+        }
+        int len = sb.length();
+        if(len >= 1){
+            sb.deleteCharAt(len - 1);
+        }
+        return sb.toString();
+    }
+}
