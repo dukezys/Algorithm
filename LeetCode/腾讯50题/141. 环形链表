@@ -1,0 +1,28 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null)
+            return false;
+        
+        ListNode p1 = head;
+        ListNode p2 = head;
+        do{
+            p1 = p1.next.next;
+            p2 = p2.next;
+            if(p1 == null || p1.next == null)//一定要有 p1.next == null，不然当p1为倒数第二个节点时会造成p1.next.next报错
+                return false;
+        }while(p1 != p2);
+        
+        return true;
+    }
+}
