@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ 
+//这种方法是通过新建一个链表来实现的，我没有想到的点是如果有一个链表到后面为空（链表短），那么就让这个链表的值为0，
+//而且新建链表的方式则消除了有多种进位的问题
+//while后的if解决了这种连续进位生成新数的问题
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1 == null && l2 == null)
+            return null;
+        ListNode newhead = new ListNode(0);
+        ListNode curr = newhead;
+        
+        int sum = 0;
+        int sign = 0;
+        while(l1 != null || l2 != null){
+            int x = (l1 != null) ? l1.val : 0;
+            int y = (l2 != null) ? l2.val : 0;//为空则为0
+            
+            sum = x + y + sign;
+            sign = sum / 10;
+            ListNode newcurr = new ListNode(sum % 10);
+            curr.next = newcurr;
+            curr = curr.next;
+            
+            if(l1 != null)
+                l1 = l1.next;
+            if(l2 != null)
+                l2 = l2.next;
+        }
+        if(sign > 0)
+            curr.next = new ListNode(sign);
+        return newhead.next;
+    }
+}
+
+//这种方法是先每个节点求和，再逐个节点进行进位，要注意的是l1的末尾会多出来一个0
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1 == null && l2 == null)
+            return null;
+        ListNode res = l1;
+        
+        while(l2 != null){
+            l1.val = l1.val + l2.val;
+            l2 = l2.next;
+            if(l1.next == null)
+                l1.next = new ListNode(0);//这里会在末尾多出来一个零
+            l1 = l1.next;
+        }
+        
+        l1 = res;
+        while(l1.next != null){
+            if(l1.val > 9){
+                l1.next.val += l1.val/10;
+                l1.val = l1.val %10;
+            }
+            if(l1.next.val==0&&l1.next.next==null){//消除末尾0
+                l1.next=null;
+            }else{
+                l1=l1.next;
+            }
+        }
+        if(l1.val>9){
+            l1.next=new ListNode(0);
+            l1.next.val=l1.next.val+l1.val/10;
+            l1.val=l1.val%10;
+        }
+        
+        return res;
+    }
+}
