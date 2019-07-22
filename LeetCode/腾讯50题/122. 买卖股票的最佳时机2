@@ -1,0 +1,14 @@
+//主要思想是找波谷和波峰，然后梯度加和，因为从波谷到波峰的每两天的差的和等于 波谷到波峰这两天的差
+//所以只需要考虑波谷到波峰，也就是连续上升的路即可，无需考虑下降的路
+class Solution {
+    public int maxProfit(int[] prices) {
+        int minValue = Integer.MAX_VALUE;
+        int res = 0;
+        for(int i = 0; i < prices.length; i++){
+            if(prices[i] >= minValue)
+                res += prices[i] - minValue;
+            minValue = prices[i];
+        }
+        return res;
+    }
+}
