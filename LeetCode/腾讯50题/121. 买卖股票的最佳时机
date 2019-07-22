@@ -1,0 +1,28 @@
+//与2不同，只能买卖一次，所以的话我们只要找出当前天之前的min，与当前天减结果再与max比较就可以了
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min = Integer.MAX_VALUE;
+        int res = 0;
+        for(int i = 0; i < prices.length; i++){
+            if(min > prices[i])
+                min = prices[i];
+            res = Math.max((prices[i] - min), res);
+        }
+        return res;
+    }
+}
+
+//官方题解，思想大概相同，但是当前点大于min时，才会进行比较，比我的想法少了一些比较次数
+public class Solution {
+    public int maxProfit(int prices[]) {
+        int minprice = Integer.MAX_VALUE;
+        int maxprofit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < minprice)
+                minprice = prices[i];
+            else if (prices[i] - minprice > maxprofit)
+                maxprofit = prices[i] - minprice;
+        }
+        return maxprofit;
+    }
+}
