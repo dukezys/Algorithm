@@ -1,0 +1,50 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ 
+ //题目要求时间复杂度为O(nlogn)，空间复杂度为O(1)，所以算法上选择归并排序，并且由于链表不像是数组，不需要copy一个数组
+ //所以可以保证时间复杂度为O(1)，类似地，我们首先要找出中点，进行切分，然后用递归切到不能再切，最后每一步进行merge
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        //寻找中点
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        //切分
+        ListNode rightStart = slow.next;
+        slow.next = null;
+        
+        //归并排序是先分割到底再merge，所以先divide
+        ListNode left = sortList(head);
+        ListNode right = sortList(rightStart);
+        
+        //设置空节点
+        ListNode h = new ListNode(0);
+        ListNode res = h;
+        //merge
+        while(left != null && right != null){
+            if(left.val < right.val){
+                h.next = left;
+                left = left.next;
+            }
+            else{
+                h.next = right;
+                right = right.next;
+            }
+            h = h.next;
+        }
+        h.next = (left == null) ? right : left;
+        
+        return res.next;
+    }
+}
