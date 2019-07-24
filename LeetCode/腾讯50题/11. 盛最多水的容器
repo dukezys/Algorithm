@@ -1,0 +1,31 @@
+//暴力
+class Solution {
+    public int maxArea(int[] height) {
+        int max = 0;
+        for(int i = 0; i < height.length; i++){
+            for(int j = 1; j < height.length; j++){
+                int area = Math.min(height[j], height[i]) * (j - i);
+                if(area > max)
+                    max = area;
+            }
+        }
+        return max;
+    }
+}
+
+//双指针法，左右两个指针，计算当前面积，与max比较，并且比较出哪一边比较短，把短的那边向前推进
+class Solution {
+    public int maxArea(int[] height) {
+        int right = height.length - 1;
+        int left = 0;
+        int max =0;
+        while(left < right){
+            max = Math.max(max, Math.min(height[left], height[right]) * (right -left));
+            if(height[left] < height[right])
+                left++;
+            else
+                right--;
+        }
+        return max;
+    }
+}
