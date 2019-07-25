@@ -1,0 +1,35 @@
+//使用StringBuilder.reverse()进行反转，要注意为负的情况
+class Solution {
+    public int reverse(int x) {
+        try{
+            if(x > 0){
+                StringBuilder str = new StringBuilder().append(x);
+                return Integer.parseInt(str.reverse().toString());
+            }
+            else{
+                x = -x;
+                StringBuilder str = new StringBuilder().append(x);
+                return Integer.parseInt(str.reverse().toString()) * (-1);
+            }
+        }catch(Exception e){
+            return 0;
+        }
+    }
+}
+
+//数学方法，取余再乘上去，注意边界的判断
+class Solution {
+    public int reverse(int x) {
+        int res = 0;
+        while(x != 0){
+            int num = x % 10;
+            x /= 10;
+            if(res > Integer.MAX_VALUE / 10|| (res == Integer.MAX_VALUE / 10 && num > 7))
+                return 0;
+            if(res < Integer.MIN_VALUE / 10|| (res == Integer.MIN_VALUE / 10 && num < -8))
+                return 0;
+            res = res * 10 + num;
+        }
+        return res;
+    }
+}
