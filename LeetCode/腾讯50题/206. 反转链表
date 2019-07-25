@@ -1,0 +1,34 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ 
+ //使用头插法，需要先设置一个新节点作为头部，然后进行头插
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode newhead = new ListNode(0);
+        while(head != null){
+            ListNode next = head.next;
+            head.next = newhead.next;
+            newhead.next = head;
+            head = next;
+        }
+        return newhead.next;
+    }
+}
+
+//递归
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
+}
