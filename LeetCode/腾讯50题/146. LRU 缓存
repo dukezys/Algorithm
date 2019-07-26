@@ -1,0 +1,97 @@
+class LRUCache {
+    //本题采用了HashMap+双向链表的数据结构，Map<Integer, Node>
+    //新建了一个双向链表
+    class Node{
+        int key;
+        int value;
+        Node pre;
+        Node next;
+    }
+    
+    //新建的节点都是从头开始建
+    //添加一个节点，从头部添加
+    private void addNode(Node node){
+        node.next = head.next;
+        node.pre = head;
+        
+        head.next.pre = node;
+        head.next = node;
+    }
+    
+    //删除节点
+    private void removeNode(Node node){
+        Node pre = node.pre;
+        Node next = node.next;
+        
+        pre.next = next;
+        next.pre = pre;
+    }
+    
+    //把节点移到头部
+    private void moveTohead(Node node){
+        removeNode(node);
+        addNode(node);
+    }
+    
+    //删除并返回最后一个元素，用于新增节点但map满了的情况
+    private Node popTail(){
+        Node res = tail.pre;
+        removeNode(res);
+        return res;
+    }
+    
+    //Main Program
+    private Map<Integer, Node> map = new HashMap<Integer, Node>();
+    private Node head;
+    private Node tail;
+    private int capacity;
+    private int size;
+    
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        head = new Node();
+        tail = new Node();
+        int size = 0;
+        head.next = tail;
+        tail.pre = head;
+    }
+    
+    public int get(int key) {
+        Node getnode = map.get(key);
+        if(getnode == null) return -1;
+        
+        moveTohead(getnode);
+        return getnode.value;
+    }
+    
+    public void put(int key, int value) {
+        Node newnode = map.get(key);
+        //放入新节点
+        if(newnode == null){
+            Node node = new Node();
+            node.key = key;
+            node.value = value;
+            
+            map.put(key, node);
+            addNode(node);
+            ++size;
+            //map满了
+            if(map.size() > capacity){
+                Node last = popTail();
+                map.remove(last.key);
+                --size;
+            }
+        }
+        else{
+            newnode.value = value;
+            moveTohead(newnode);
+        }
+        
+    }
+}
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
