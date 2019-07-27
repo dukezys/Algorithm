@@ -1,0 +1,26 @@
+//回溯法，先想到用递归，主要思想，设当前数组为[1,2,3,4]，则可以分为字数组，[1,2,3,4]，[2,3,4]，[3,4]，[4]
+//设first为每个字数组的头，first的位置代表的是整个数组中的，每次for循环的目的就是将num[i] 和first 互换，然后再递归看下一个数
+//因为数字位置的改变会映射到原ArrayList中，所以在变完之后要变回原位置来，以便进行下一段变换
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        List<Integer> list = new ArrayList<Integer>();
+        
+        for(int num : nums)
+            list.add(num);
+        permute(nums.length, 0, list, ans);
+        return ans;
+        
+    }
+    
+    public void permute(int n, int first, List<Integer> list,
+                        List<List<Integer>> ans){
+        if(first == n)
+            ans.add(new ArrayList<Integer>(list));//储存目前的list，因为递归结束后就会消失，不能用list
+        for(int i = first; i < n; i++){
+            Collections.swap(list, i, first);//变换，例如，[1,2,3] -> [2,1,3]
+            permute(n, first + 1, list, ans);
+            Collections.swap(list, first, i);因为之后还要变成[3,2,1]，所以要将[2,1,3]变回来
+        }
+    }
+}
