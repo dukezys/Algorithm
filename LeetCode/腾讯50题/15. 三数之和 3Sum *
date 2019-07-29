@@ -1,0 +1,32 @@
+//这个办法使用了双指针法，感觉双指针法在数组与链表中有很广泛的用处，以后需要记得想起来
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+    
+        for(int i = 0 ; i < nums.length - 2; i++){
+            //最小数字大于0的时候可以直接跳过
+            if(nums[i] > 0)
+                break;
+            //当i重复的时候也跳过，因为结果一样
+            if(i > 0 && nums[i] == nums[i-1])
+                continue;
+            int head = i + 1;
+            int tail = nums.length - 1;
+            //确定i，双指针从i+1和最后一个向中间找
+            while(head < tail){
+                int sum = nums[head] + nums[tail] + nums[i];
+                if(sum < 0)
+                    while(head < tail && nums[head] == nums[++head]);
+                else if(sum > 0)
+                    while(head < tail && nums[tail] == nums[--tail]);
+                else{
+                    ans.add(new ArrayList<Integer>(Arrays.asList(nums[i], nums[head], nums[tail])));
+                    while(head < tail && nums[head] == nums[++head]);
+                    while(head< tail && nums[tail] == nums[--tail]);
+                }
+            }
+        }
+        return ans;
+    }
+}
