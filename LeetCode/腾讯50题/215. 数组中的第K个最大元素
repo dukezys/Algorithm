@@ -1,0 +1,16 @@
+//简单的可以先使用自带的Arrays.sort()再取值
+//堆排序
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Queue<Integer> queue = new PriorityQueue<>();
+        
+        for(int num : nums){
+            queue.add(num);
+            if(queue.size() > k)
+                queue.poll();
+        }
+        
+        return queue.poll();
+        
+    }
+}
