@@ -1,0 +1,34 @@
+//采用了从左到右，从上到下，从右到左，从上到下依次循环添加进list
+//知道不能再添加了为止
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> list = new ArrayList<Integer>();
+        if (matrix.length == 0)
+            return list;
+ 
+        int col = matrix[0].length - 1;
+        int row = matrix.length - 1;
+        int r1 = 0;
+        int r2 = row;
+        int c1 = 0;
+        int c2 = col;
+        while(r1 <= r2 && c1 <= c2){
+            for(int i = c1; i <= c2; i++)
+                list.add(matrix[r1][i]);
+            for(int i = r1 + 1; i <= r2; i++)
+                list.add(matrix[i][c2]);
+            if(r1 < r2 && c1 < c2){
+                for(int i = c2 - 1; i > c1; i--)
+                    list.add(matrix[r2][i]);
+                for(int i = r2; i > r1; i--)
+                    list.add(matrix[i][c1]);
+            }
+            r1++;
+            r2--;
+            c1++;
+            c2--;
+        }
+        return list;
+        
+    }
+}
