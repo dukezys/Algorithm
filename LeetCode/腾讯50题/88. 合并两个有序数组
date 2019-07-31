@@ -1,0 +1,15 @@
+//三指针，m，n，nums1.length-1
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int k = nums1.length - 1;
+        m -= 1;
+        n -= 1;
+        while(n >= 0){
+            //注意m >= 0 的边界要写上
+            if(m >= 0 && nums1[m] >= nums2[n])
+                nums1[k--] = nums1[m--];
+            else
+                nums1[k--] = nums2[n--];
+        }
+    }
+}
