@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ //第一，设一个List，暴力把所有数字放进去，再排序，找第k个，很蠢的方法
+class Solution {
+    private List<Integer> list = new ArrayList<>();
+    public int kthSmallest(TreeNode root, int k) {
+        addNum(root);
+        Collections.sort(list);
+        return list.get(k-1);
+        
+    }
+    public void addNum(TreeNode root){
+        if(root == null)
+            return;
+        list.add(root.val);
+        addNum(root.left);
+        addNum(root.right);
+    }
+}
+
+//第二，二叉搜索树的中序遍历是一个有序数组，所以，可以先中序遍历，再找出第k-1个数
+
+//第三，无需额外的数组或ArrayList，只要模拟中序遍历的过程，再在第k个的时候直接退出就可以了
+class Solution {
+    private int ans = Integer.MAX_VALUE, count;
+    public int kthSmallest(TreeNode root, int k) {
+        count = k;
+        inorder(root);//模拟中序遍历
+        return ans;
+        
+    }
+    public void inorder(TreeNode root){
+        if(root != null){
+            inorder(root.left);//先找到最左边
+            if(ans != Integer.MAX_VALUE)
+                return;
+            if(--count == 0)
+                ans = root.val;
+            inorder(root.right);//再找右边
+        }
+    }
+}
