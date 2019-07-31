@@ -1,0 +1,26 @@
+//这是根据合并有序链表的思想，只找到中位数为止，时间复杂度为O(m+n)
+//从位置0开始比，较大的数的位置++，要注意边界情况，包括num1到最后以及num2到最后
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int len = m + n;
+        int k = (m+n)/2;
+        
+        int curr = 0;
+        int n1 = 0, n2 = 0;
+        int pre = 0, mid = 0;
+        while(curr <= k){
+            pre = mid;
+            //if的判断要考虑到nums1已经到最后一个或者nums2已经到最后一个的情况
+            if(n1 < m && (n2 >= n ||nums1[n1] <= nums2[n2] )) mid = nums1[n1++];
+            else mid = nums2[n2++];
+            curr++;
+        }
+        //判断和是奇数还是偶数
+        if((len & 1) == 1)
+            return (double)mid;
+        else
+            return (double)(mid + pre) /2;
+    }
+}
