@@ -1,0 +1,26 @@
+//由于是求众数，那么一定个数大于n/2，那无论如何，第n/2个数就是我们要求的数
+//所以先排序再求第n/2个
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int ans = nums[nums.length/2];
+        return ans;
+    }
+}
+
+//投票法，这个方法很巧秒，当遇到候选者+1，不是候选者-1，众数的数量一定大于非众数，所以候选者一定是众数
+//算法复杂度还较小
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int candidate = 0;
+        
+        for(int num : nums){
+            if(count == 0)
+                candidate = num;
+            count += (num == candidate) ? 1: -1;
+        }
+        
+        return candidate;
+    }
+}
