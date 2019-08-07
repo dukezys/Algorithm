@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ //使用了回溯法，明显的特征是先进入递归，再处理方法中的逻辑
+ //本题中只要包含目标节点的分支就标记为1，这样当和>=2时，就可以确定当前点为公共祖先
+class Solution {
+    private TreeNode ans;
+    
+    public Solution(){
+        this.ans = null;
+    }
+    
+    public boolean findParent(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null)
+            return false;
+        int left = findParent(root.left, p, q) ? 1 : 0;
+        int right = findParent(root.right, p, q) ? 1 : 0;
+        int mid = (root.val == p.val || root.val == q.val) ? 1 : 0;
+        
+        if(left + right + mid >= 2)
+            ans = root;
+        return (left + right + mid > 0);
+    }
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        findParent(root, p, q);
+        return ans;
+    }
+}
