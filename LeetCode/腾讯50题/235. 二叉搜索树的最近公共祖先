@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ //由于是BST树，找到公共祖先我们只需要找到p，q中 min <= root <= max 的点，这样无论p，q是头节点与否都可以计算
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        int max = Math.max(p.val, q.val);
+        int min = Math.min(p.val, q.val);
+        while(root != null){
+            if(root.val < min)
+                root = root.right;
+            else if(root.val > max)
+                root = root.left;
+            else
+                return root;
+        }
+        return root;
+    }
+}
