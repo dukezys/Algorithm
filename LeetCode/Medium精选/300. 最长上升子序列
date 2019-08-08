@@ -1,0 +1,58 @@
+//解法一，O(n2)
+//首先需要遍历数组，在计算当前数的最长上升子序列时，到当前的最长上升子序列一定是之前比自己小的子序列的和+1
+//所以可以完美的应用dp
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length == 0 || nums == null)
+            return 0;
+        int[] dp = new int[nums.length];
+        int ans = 0;
+        for(int i = 0; i < nums.length; i++){
+            dp[i] = 1;
+            for(int j = 0; j < nums.length; j++){
+                if(nums[j] < nums[i])
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                ans = Math.max(ans, dp[i]);
+            }
+        }
+        return ans;
+    }
+}
+
+//解法二！！，O(nlogn)
+//使用了动态规划+二分查找+贪心
+//主要思想是尽可能的让当前递增数组中的数尽可能的小，dp数组储存递增序列
+//新一次循环num[i]，判断num[i]是否大于dp[end]，大于的话就把num[i]放到dp[end++]中去，小于的话就使用二分查找，
+//将从头开始第一个大于这个数的数替换成它
+//与第一种方法不同的是，第一种方法中的dp是到每个位置最长子序列的长度，而第二种方法里的是dp是一个动态变化的最长子序列
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length == 0 || nums == null)
+            return 0;
+        if(nums.length == 1)
+            return 1;
+        int[] dp = new int[nums.length];//虽然dp长度跟原长度相同，但子序列却不一定会相同
+        
+        int end = 0;
+        dp[0] = nums[0];
+        
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] > dp[end]){
+                dp[++end] = nums[i]; 
+            }
+            else{
+                int left = 0;
+                int right = end;
+                while(left < right){
+                    int mid = (left+right) >>> 1;
+                    if(dp[mid] < nums[i])
+                        left = mid + 1;
+                    else
+                        right = mid;
+                }
+                dp[left] = nums[i];
+            }
+        }
+        return ++end;
+    }
+}
