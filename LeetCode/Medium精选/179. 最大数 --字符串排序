@@ -1,0 +1,24 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        String[] s = new String[nums.length];
+        for(int i = 0; i < nums.length; i++)
+            s[i] = String.valueOf(nums[i]);
+        
+        //重写Comparator 排序
+        Arrays.sort(s, new Comparator<String>(){
+            public int compare(String a, String b){
+                String order1 = a + b;
+                String order2 = b + a;
+                return order2.compareTo(order1);
+            }
+        });
+        //如果最大数为0，返回0
+        if(s[0].equals("0"))
+            return "0";
+        
+        StringBuilder ans = new StringBuilder("");
+        for(String num : s)
+            ans.append(num);
+        return ans.toString();
+    }
+}
