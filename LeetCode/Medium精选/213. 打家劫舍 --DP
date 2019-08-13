@@ -1,0 +1,88 @@
+198.打家劫舍
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length == 0)
+            return 0;
+        if(nums.length == 1)
+            return nums[0];
+        if(nums.length == 2)
+            return Math.max(nums[0], nums[1]);
+        
+        int sum = 0;
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0],nums[1]);
+        for(int i = 2; i < nums.length; i++){
+            dp[i] = Math.max(dp[i-2] + nums[i], dp[i-1]);
+        }
+        return dp[dp.length-1];
+    }
+}
+
+//简化版
+public int rob(int[] num) {
+    int prevMax = 0;
+    int currMax = 0;
+    for (int x : num) {
+        int temp = currMax;
+        currMax = Math.max(prevMax + x, currMax);
+        prevMax = temp;
+    }
+    return currMax;
+}
+
+213. II
+//是连成圈的，分别来算删除第一个和删除末尾的再比较最大的就好了
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length == 0)
+            return 0;
+        if(nums.length == 1)
+            return nums[0];
+        int pre1 = 0;
+        int curr1 = 0;
+        
+        for(int i = 0; i < nums.length - 1; i++){
+            int temp = curr1;
+            curr1 = Math.max(pre1 + nums[i], curr1);
+            pre1 = temp;
+        }
+        
+        int pre2 = 0;
+        int curr2 = 0;
+        
+        for(int i = 1; i < nums.length; i++){
+            int temp2 = curr2;
+            curr2 = Math.max(pre2 + nums[i], curr2);
+            pre2 = temp2;
+        }
+        
+        return curr1 > curr2 ? curr1 : curr2;
+        
+    }
+}
+
+337. III
+//动态规划+递归
+class Solution {
+    public int rob(TreeNode root) {
+        return Rob(root);
+    }
+    
+    public int Rob(TreeNode root){
+        if(root == null)
+            return 0;
+        int include = root.val;
+        int exclude = Rob(root.left) + Rob(root.right);
+        if(root.left != null){
+            include += Rob(root.left.left);
+            include += Rob(root.left.right);
+        }
+        if(root.right != null){
+            include += Rob(root.right.left);
+            include += Rob(root.right.right);
+        }
+        
+        return include > exclude ? include : exclude;
+    }
+}
