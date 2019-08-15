@@ -1,0 +1,35 @@
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        int n = nums.length;
+        if(n == 0)
+            return new ArrayList<List<Integer>>();
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        for(int num : nums)
+            list.add(num);
+        recursive(ans, list, n, 0);
+        return ans;
+           
+    }
+    
+    public void recursive(List<List<Integer>> ans, List<Integer> list, int n, int first){
+        if(first == n)
+            ans.add(new ArrayList<Integer>(list));
+        for(int i = first; i < n; i++){
+            if(!repeat(first, i, list)){
+                Collections.swap(list, first, i);
+                recursive(ans, list, n, first+1);
+                Collections.swap(list, i, first);
+            }
+        }
+    }
+    
+    public boolean repeat(int first, int i, List<Integer> list){
+        int repeat = list.get(i);
+        for(int j = first; j < i; j++){
+            if(repeat == list.get(j))
+                return true;
+        }
+        return false;
+    }
+}
