@@ -1,0 +1,20 @@
+//回溯
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<String>();
+        String curr = new String("(");
+        backtrace(list, curr, 1, 0, n);
+        return list;
+    }
+    
+    public void backtrace(List<String> list, String curr, int open, int close, int max){
+        if(curr.length() == max * 2){
+            list.add(curr);
+            return;
+        }
+        if(open < max)
+            backtrace(list, curr + "(", open + 1, close, max);
+        if(close < open)//只要左括号比右括号多，就可以随意加右括号
+            backtrace(list, curr + ")", open, close + 1, max);
+    }
+}
